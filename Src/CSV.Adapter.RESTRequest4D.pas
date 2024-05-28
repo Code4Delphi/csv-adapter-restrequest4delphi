@@ -4,7 +4,6 @@ interface
 
 uses
   System.SysUtils,
-  System.StrUtils,
   System.JSON,
   System.Generics.Collections,
   System.Classes,

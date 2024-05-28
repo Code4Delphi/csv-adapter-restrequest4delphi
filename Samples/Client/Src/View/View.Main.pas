@@ -4,12 +4,10 @@ interface
 
 uses
   Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
   System.Variants,
   System.Classes,
-  json,
-  REST.Json,
+  System.JSON,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -43,7 +41,7 @@ type
     GroupBox1: TGroupBox;
     Label6: TLabel;
     cBoxSeparator: TComboBox;
-    Button1: TButton;
+    edtApplyConfigs: TButton;
     Label5: TLabel;
     edtResource: TEdit;
     procedure FormCreate(Sender: TObject);
@@ -51,7 +49,7 @@ type
     procedure btnGetArraySaveToFileClick(Sender: TObject);
     procedure btnGetObjectToTStringClick(Sender: TObject);
     procedure btnGetArrayToTStringClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure edtApplyConfigsClick(Sender: TObject);
   private
     function GetNameFile: string;
     function FormatJSON(AValue: string; Indentation: Integer = 2): string;
@@ -77,9 +75,9 @@ var
 begin
   LSaveDialog := TSaveDialog.Create(nil);
   try
-    LSaveDialog.Title := 'Salvar em arquivo';
+    LSaveDialog.Title := 'Save file in';
     LSaveDialog.DefaulText := '*.csv';
-    LSaveDialog.Filter := 'Arquivos CSV (*.csv)|*.csv|Todos os Arquivos (*.*)|*.*';
+    LSaveDialog.Filter := 'File CSV (*.csv)|*.csv|All files (*.*)|*.*';
     LSaveDialog.InitialDir := 'C:\Temp\';
     LSaveDialog.FileName := FormatDateTime('yyyyMMdd-hhnnss', now) + '.csv';
 
@@ -92,7 +90,7 @@ begin
   end;
 end;
 
-procedure TViewMain.Button1Click(Sender: TObject);
+procedure TViewMain.edtApplyConfigsClick(Sender: TObject);
 begin
   TCSVAdapterRESTRequest4D.Config.Separator(cBoxSeparator.Text);
 end;
@@ -136,7 +134,7 @@ begin
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
-    .AddParam('numero-registros-gerar', edtNumRegistros.Text)
+    .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo, 'data'))
     .Accept('application/json')
     .Get;
@@ -164,7 +162,7 @@ var
 begin
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
-    .AddParam('numero-registros-gerar', edtNumRegistros.Text)
+    .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data'))
     .Accept('application/json')
     .Get;

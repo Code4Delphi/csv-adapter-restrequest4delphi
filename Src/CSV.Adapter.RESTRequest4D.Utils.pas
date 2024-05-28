@@ -3,8 +3,7 @@ unit CSV.Adapter.RESTRequest4D.Utils;
 interface
 
 uses
-  System.SysUtils,
-  System.StrUtils;
+  System.SysUtils;
 
 type
   TCSVAdapterRESTRequest4DUtils = class

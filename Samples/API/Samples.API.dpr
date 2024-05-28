@@ -8,8 +8,7 @@ uses
   System.SysUtils,
   System.JSON,
   Horse,
-  Horse.Jhonson,
-  Horse.HandleException;
+  Horse.Jhonson;
 
 const
   PORT = 9050;
@@ -24,7 +23,7 @@ begin
       Res.Send('pong');
     end);
 
-  THorse.Get('/clientes',
+  THorse.Get('/clients',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     var
       LJSONObjectRetorno: TJSONObject;
@@ -34,16 +33,16 @@ begin
       i: Integer;
     begin
       LNumRegistrosGerar := 10;
-      if Req.Query.ContainsKey('numero-registros-gerar') then
-        LNumRegistrosGerar := Req.Query.Field('numero-registros-gerar').AsInteger;
+      if Req.Query.ContainsKey('number-records') then
+        LNumRegistrosGerar := Req.Query.Field('number-records').AsInteger;
 
       LJSONArray := TJSONArray.Create;
       for i := 1 to LNumRegistrosGerar do
       begin
         LJSONObjectCliente := TJSONObject.Create;
         LJSONObjectCliente.AddPair('id', TJSONNumber.Create(i));
-        LJSONObjectCliente.AddPair('nome', 'Nome ;cliente ' + i.ToString);
-        LJSONObjectCliente.AddPair('email','nome' + i.ToString + '@code4delphi.com.br');
+        LJSONObjectCliente.AddPair('nome', 'Name client ' + i.ToString);
+        LJSONObjectCliente.AddPair('email','name' + i.ToString + '@code4delphi.com.br');
         LJSONArray.AddElement(LJSONObjectCliente);
       end;
 
@@ -53,7 +52,7 @@ begin
       Res.Send<TJSONObject>(LJSONObjectRetorno);
     end);
 
-  THorse.Get('/clientes/:id',
+  THorse.Get('/clients/:id',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     var
       LJSONObject: TJSONObject;
@@ -63,7 +62,7 @@ begin
 
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair('id', TJSONNumber.Create(LId.ToInteger));
-      LJSONObject.AddPair('nome', 'Nome cliente ' + LId);
+      LJSONObject.AddPair('name', 'Name client ' + LId);
       LJSONObject.AddPair('email','nome' + LId + '@code4delphi.com.br');
       Res.Send<TJSONObject>(LJSONObject);
     end);
@@ -71,6 +70,6 @@ begin
   THorse.Listen(PORT,
     procedure
     begin
-      Writeln('Porta atual: ' + PORT.ToString);
+      Writeln('CSV Adapter For RESTRequest4D is running on the port ' + PORT.ToString);
     end);
 end.

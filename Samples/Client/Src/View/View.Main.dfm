@@ -30,13 +30,12 @@ object ViewMain: TViewMain
       AlignWithMargins = True
       Left = 454
       Top = 3
-      Width = 93
+      Width = 80
       Height = 33
       Align = alLeft
-      Caption = 'Registros a buscar:'
+      Caption = 'Number records:'
       Layout = tlCenter
-      ExplicitLeft = 695
-      ExplicitTop = 0
+      ExplicitHeight = 13
     end
     object Label3: TLabel
       AlignWithMargins = True
@@ -62,7 +61,7 @@ object ViewMain: TViewMain
     end
     object edtNumRegistros: TEdit
       AlignWithMargins = True
-      Left = 553
+      Left = 540
       Top = 8
       Width = 54
       Height = 23
@@ -72,8 +71,8 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 0
       Text = '5'
-      ExplicitLeft = 695
-      ExplicitTop = 5
+      ExplicitLeft = 553
+      ExplicitHeight = 21
     end
     object edtBaseURL: TEdit
       AlignWithMargins = True
@@ -87,7 +86,7 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 1
       Text = 'http://localhost:9050/'
-      ExplicitTop = 6
+      ExplicitHeight = 21
     end
     object edtResource: TEdit
       AlignWithMargins = True
@@ -100,9 +99,8 @@ object ViewMain: TViewMain
       Align = alLeft
       NumbersOnly = True
       TabOrder = 2
-      Text = 'clientes'
-      ExplicitLeft = 616
-      ExplicitTop = -8
+      Text = 'clients'
+      ExplicitHeight = 21
     end
   end
   object Panel1: TPanel
@@ -286,7 +284,7 @@ object ViewMain: TViewMain
         ';'
         '|')
     end
-    object Button1: TButton
+    object edtApplyConfigs: TButton
       AlignWithMargins = True
       Left = 135
       Top = 18
@@ -295,7 +293,7 @@ object ViewMain: TViewMain
       Align = alLeft
       Caption = 'Apply Config'
       TabOrder = 1
-      OnClick = Button1Click
+      OnClick = edtApplyConfigsClick
     end
   end
 end
