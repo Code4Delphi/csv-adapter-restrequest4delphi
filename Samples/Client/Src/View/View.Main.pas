@@ -44,6 +44,8 @@ type
     Label6: TLabel;
     cBoxSeparator: TComboBox;
     Button1: TButton;
+    Label5: TLabel;
+    edtResource: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnGetObjectSaveToFileClick(Sender: TObject);
     procedure btnGetArraySaveToFileClick(Sender: TObject);
@@ -116,7 +118,7 @@ begin
   LNomeArquivo := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo))
     .Accept('application/json')
@@ -133,7 +135,7 @@ begin
   LNomeArquivo := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .AddParam('numero-registros-gerar', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo, 'data'))
     .Accept('application/json')
@@ -147,7 +149,7 @@ var
   LResponse: IResponse;
 begin
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines))
     .Accept('application/json')
@@ -161,7 +163,7 @@ var
   LResponse: IResponse;
 begin
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .AddParam('numero-registros-gerar', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data'))
     .Accept('application/json')

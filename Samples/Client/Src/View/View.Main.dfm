@@ -26,17 +26,17 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -1
     object Label1: TLabel
       AlignWithMargins = True
-      Left = 239
+      Left = 454
       Top = 3
       Width = 93
       Height = 33
       Align = alLeft
       Caption = 'Registros a buscar:'
       Layout = tlCenter
-      ExplicitHeight = 13
+      ExplicitLeft = 695
+      ExplicitTop = 0
     end
     object Label3: TLabel
       AlignWithMargins = True
@@ -49,9 +49,20 @@ object ViewMain: TViewMain
       Caption = 'Base URL:'
       Layout = tlCenter
     end
+    object Label5: TLabel
+      AlignWithMargins = True
+      Left = 239
+      Top = 3
+      Width = 50
+      Height = 33
+      Align = alLeft
+      AutoSize = False
+      Caption = 'Resource:'
+      Layout = tlCenter
+    end
     object edtNumRegistros: TEdit
       AlignWithMargins = True
-      Left = 338
+      Left = 553
       Top = 8
       Width = 54
       Height = 23
@@ -61,7 +72,8 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 0
       Text = '5'
-      ExplicitHeight = 21
+      ExplicitLeft = 695
+      ExplicitTop = 5
     end
     object edtBaseURL: TEdit
       AlignWithMargins = True
@@ -75,7 +87,22 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 1
       Text = 'http://localhost:9050/'
-      ExplicitHeight = 21
+      ExplicitTop = 6
+    end
+    object edtResource: TEdit
+      AlignWithMargins = True
+      Left = 295
+      Top = 8
+      Width = 153
+      Height = 23
+      Margins.Top = 8
+      Margins.Bottom = 8
+      Align = alLeft
+      NumbersOnly = True
+      TabOrder = 2
+      Text = 'clientes'
+      ExplicitLeft = 616
+      ExplicitTop = -8
     end
   end
   object Panel1: TPanel
@@ -87,8 +114,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 123
-    ExplicitHeight = 418
     object Splitter1: TSplitter
       Left = 505
       Top = 0
@@ -105,7 +130,6 @@ object ViewMain: TViewMain
       Align = alLeft
       Caption = ' JSON '
       TabOrder = 0
-      ExplicitHeight = 418
       object mmJSON: TMemo
         Left = 2
         Top = 15
@@ -114,7 +138,6 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitHeight = 401
       end
     end
     object GroupBox2: TGroupBox
@@ -125,7 +148,6 @@ object ViewMain: TViewMain
       Align = alClient
       Caption = ' CSV '
       TabOrder = 1
-      ExplicitHeight = 418
       object mmCSV: TMemo
         Left = 2
         Top = 15
@@ -134,7 +156,6 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitHeight = 401
       end
     end
   end
@@ -148,7 +169,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 41
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
@@ -170,7 +190,6 @@ object ViewMain: TViewMain
       Caption = 'Get Object - Save to file'
       TabOrder = 0
       OnClick = btnGetObjectSaveToFileClick
-      ExplicitTop = 2
     end
     object btnGetArraySaveToFile: TButton
       AlignWithMargins = True
@@ -194,7 +213,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
-    ExplicitTop = 83
     object Label4: TLabel
       AlignWithMargins = True
       Left = 3
@@ -238,7 +256,6 @@ object ViewMain: TViewMain
     Align = alTop
     Caption = '   Configuration '
     TabOrder = 4
-    ExplicitTop = -1
     object Label6: TLabel
       AlignWithMargins = True
       Left = 5
