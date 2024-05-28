@@ -1,0 +1,1 @@
+# csv-adapter-restrequest4delphi
