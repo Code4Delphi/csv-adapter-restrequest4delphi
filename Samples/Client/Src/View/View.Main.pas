@@ -40,11 +40,16 @@ type
     Label4: TLabel;
     btnGetObjectToTString: TButton;
     btnGetArrayToTString: TButton;
+    GroupBox1: TGroupBox;
+    Label6: TLabel;
+    cBoxSeparator: TComboBox;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnGetObjectSaveToFileClick(Sender: TObject);
     procedure btnGetArraySaveToFileClick(Sender: TObject);
     procedure btnGetObjectToTStringClick(Sender: TObject);
     procedure btnGetArrayToTStringClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     function GetNameFile: string;
     function FormatJSON(AValue: string; Indentation: Integer = 2): string;
@@ -83,6 +88,11 @@ begin
   finally
     LSaveDialog.Free;
   end;
+end;
+
+procedure TViewMain.Button1Click(Sender: TObject);
+begin
+  TCSVAdapterRESTRequest4D.Config.Separator(cBoxSeparator.Text);
 end;
 
 function TViewMain.FormatJSON(AValue: string; Indentation: Integer = 2): string;

@@ -9,6 +9,7 @@ uses
   System.Generics.Collections,
   System.Classes,
   VCL.Dialogs,
+  CSV.Adapter.RESTRequest4D.Config,
   RESTRequest4D.Request.Adapter.Contract;
 
 type
@@ -27,8 +28,8 @@ type
     procedure GetItems(const AJSONObject: TJSONObject);
     procedure GetColumns(const AJSONObject: TJSONObject);
     procedure ProcessResult;
-    function RemoveLastChar(const AValue: string): string;
   public
+    class function Config: TCSVAdapterRESTRequest4DConfig;
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
     class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
     constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
@@ -37,6 +38,14 @@ type
   end;
 
 implementation
+
+uses
+  CSV.Adapter.RESTRequest4D.Utils;
+
+class function TCSVAdapterRESTRequest4D.Config: TCSVAdapterRESTRequest4DConfig;
+begin
+  Result := TCSVAdapterRESTRequest4DConfig.GetInstance;
+end;
 
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter;
 begin
@@ -140,9 +149,9 @@ begin
   try
     LLine := '';
     for LJSONPair in AJSONObject do
-      LLine := LLine + LJSONPair.JsonValue.Value  + ';';
+      LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
 
-    FCSV.Add(Self.RemoveLastChar(LLine));
+    FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
   finally
     AJSONObject.Free;
   end;
@@ -156,18 +165,13 @@ begin
   try
     LLine := '';
     for LJSONPair in AJSONObject do
-      LLine := LLine + LJSONPair.JsonString.Value  + ';';
+      LLine := LLine +TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
 
-    FCSV.Add(Self.RemoveLastChar(LLine));
+    FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
     FCaptionsCreated := True;
   finally
     AJSONObject.Free;
   end;
-end;
-
-function TCSVAdapterRESTRequest4D.RemoveLastChar(const AValue: string): string;
-begin
-  Result := copy(AValue, 1, Pred(AValue.Length));
 end;
 
 procedure TCSVAdapterRESTRequest4D.ProcessResult;

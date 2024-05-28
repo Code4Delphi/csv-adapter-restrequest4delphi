@@ -17,7 +17,7 @@ object ViewMain: TViewMain
   TextHeight = 13
   object Panel9: TPanel
     Left = 0
-    Top = 0
+    Top = 49
     Width = 984
     Height = 41
     Align = alTop
@@ -36,7 +36,6 @@ object ViewMain: TViewMain
       Align = alLeft
       Caption = 'Registros a buscar:'
       Layout = tlCenter
-      ExplicitLeft = 243
       ExplicitHeight = 13
     end
     object Label3: TLabel
@@ -62,6 +61,7 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 0
       Text = '5'
+      ExplicitHeight = 21
     end
     object edtBaseURL: TEdit
       AlignWithMargins = True
@@ -75,23 +75,24 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 1
       Text = 'http://localhost:9050/'
+      ExplicitHeight = 21
     end
   end
   object Panel1: TPanel
     Left = 0
-    Top = 123
+    Top = 172
     Width = 984
-    Height = 418
+    Height = 369
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 41
-    ExplicitHeight = 500
+    ExplicitTop = 123
+    ExplicitHeight = 418
     object Splitter1: TSplitter
       Left = 505
       Top = 0
-      Height = 418
+      Height = 369
       ExplicitLeft = 480
       ExplicitTop = 200
       ExplicitHeight = 100
@@ -100,46 +101,46 @@ object ViewMain: TViewMain
       Left = 0
       Top = 0
       Width = 505
-      Height = 418
+      Height = 369
       Align = alLeft
       Caption = ' JSON '
       TabOrder = 0
-      ExplicitHeight = 500
+      ExplicitHeight = 418
       object mmJSON: TMemo
         Left = 2
         Top = 15
         Width = 501
-        Height = 401
+        Height = 352
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitLeft = 3
+        ExplicitHeight = 401
       end
     end
     object GroupBox2: TGroupBox
       Left = 508
       Top = 0
       Width = 476
-      Height = 418
+      Height = 369
       Align = alClient
       Caption = ' CSV '
       TabOrder = 1
-      ExplicitHeight = 500
+      ExplicitHeight = 418
       object mmCSV: TMemo
         Left = 2
         Top = 15
         Width = 472
-        Height = 401
+        Height = 352
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitHeight = 483
+        ExplicitHeight = 401
       end
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 41
+    Top = 90
     Width = 984
     Height = 41
     Align = alTop
@@ -147,6 +148,7 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 2
+    ExplicitTop = 41
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
@@ -168,6 +170,7 @@ object ViewMain: TViewMain
       Caption = 'Get Object - Save to file'
       TabOrder = 0
       OnClick = btnGetObjectSaveToFileClick
+      ExplicitTop = 2
     end
     object btnGetArraySaveToFile: TButton
       AlignWithMargins = True
@@ -183,7 +186,7 @@ object ViewMain: TViewMain
   end
   object Panel3: TPanel
     Left = 0
-    Top = 82
+    Top = 131
     Width = 984
     Height = 41
     Align = alTop
@@ -191,7 +194,7 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
-    ExplicitTop = 49
+    ExplicitTop = 83
     object Label4: TLabel
       AlignWithMargins = True
       Left = 3
@@ -225,6 +228,57 @@ object ViewMain: TViewMain
       Caption = 'Get Array - To TString'
       TabOrder = 1
       OnClick = btnGetArrayToTStringClick
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 984
+    Height = 49
+    Align = alTop
+    Caption = '   Configuration '
+    TabOrder = 4
+    ExplicitTop = -1
+    object Label6: TLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 18
+      Width = 71
+      Height = 26
+      Align = alLeft
+      AutoSize = False
+      Caption = 'Separator:'
+      Layout = tlCenter
+      ExplicitLeft = 3
+      ExplicitTop = 3
+      ExplicitHeight = 33
+    end
+    object cBoxSeparator: TComboBox
+      AlignWithMargins = True
+      Left = 82
+      Top = 20
+      Width = 47
+      Height = 21
+      Margins.Top = 5
+      Margins.Bottom = 8
+      Align = alLeft
+      ItemIndex = 0
+      TabOrder = 0
+      Text = ';'
+      Items.Strings = (
+        ';'
+        '|')
+    end
+    object Button1: TButton
+      AlignWithMargins = True
+      Left = 135
+      Top = 18
+      Width = 100
+      Height = 26
+      Align = alLeft
+      Caption = 'Apply Config'
+      TabOrder = 1
+      OnClick = Button1Click
     end
   end
 end

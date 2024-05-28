@@ -42,7 +42,7 @@ begin
       begin
         LJSONObjectCliente := TJSONObject.Create;
         LJSONObjectCliente.AddPair('id', TJSONNumber.Create(i));
-        LJSONObjectCliente.AddPair('nome', 'Nome cliente ' + i.ToString);
+        LJSONObjectCliente.AddPair('nome', 'Nome ;cliente ' + i.ToString);
         LJSONObjectCliente.AddPair('email','nome' + i.ToString + '@code4delphi.com.br');
         LJSONArray.AddElement(LJSONObjectCliente);
       end;
