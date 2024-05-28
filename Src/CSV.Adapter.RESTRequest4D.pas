@@ -67,7 +67,7 @@ end;
 constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string = '');
 begin
   FStringListResult := AStringList;
-  Self.Create('', ARootElement)
+  Self.Create('', ARootElement);
 end;
 
 destructor TCSVAdapterRESTRequest4D.Destroy;

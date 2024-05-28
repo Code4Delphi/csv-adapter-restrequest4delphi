@@ -41,7 +41,7 @@ begin
       begin
         LJSONObjectCliente := TJSONObject.Create;
         LJSONObjectCliente.AddPair('id', TJSONNumber.Create(i));
-        LJSONObjectCliente.AddPair('nome', 'Name client ' + i.ToString);
+        LJSONObjectCliente.AddPair('name', 'Name Client ' + i.ToString);
         LJSONObjectCliente.AddPair('email','name' + i.ToString + '@code4delphi.com.br');
         LJSONArray.AddElement(LJSONObjectCliente);
       end;
@@ -62,8 +62,8 @@ begin
 
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair('id', TJSONNumber.Create(LId.ToInteger));
-      LJSONObject.AddPair('name', 'Name client ' + LId);
-      LJSONObject.AddPair('email','nome' + LId + '@code4delphi.com.br');
+      LJSONObject.AddPair('name', 'Name Client ' + LId);
+      LJSONObject.AddPair('email','name' + LId + '@code4delphi.com.br');
       Res.Send<TJSONObject>(LJSONObject);
     end);
 
