@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F2AE6916-0061-4D0F-A322-8E0CABE9A2DD}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Client\Samples.Client.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="API\Samples.API.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Samples_Client">
+        <MSBuild Projects="Client\Samples.Client.dproj"/>
+    </Target>
+    <Target Name="Samples_Client:Clean">
+        <MSBuild Projects="Client\Samples.Client.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Samples_Client:Make">
+        <MSBuild Projects="Client\Samples.Client.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Samples_API">
+        <MSBuild Projects="API\Samples.API.dproj"/>
+    </Target>
+    <Target Name="Samples_API:Clean">
+        <MSBuild Projects="API\Samples.API.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Samples_API:Make">
+        <MSBuild Projects="API\Samples.API.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Samples_Client;Samples_API"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Samples_Client:Clean;Samples_API:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Samples_Client:Make;Samples_API:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
