@@ -26,30 +26,30 @@ begin
   THorse.Get('/clients',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     var
-      LJSONObjectRetorno: TJSONObject;
-      LJSONObjectCliente: TJSONObject;
+      LJSONObjectResult: TJSONObject;
+      LJSONObjectClient: TJSONObject;
       LJSONArray: TJSONArray;
-      LNumRegistrosGerar: Integer;
+      LNumberRecords: Integer;
       i: Integer;
     begin
-      LNumRegistrosGerar := 10;
+      LNumberRecords := 10;
       if Req.Query.ContainsKey('number-records') then
-        LNumRegistrosGerar := Req.Query.Field('number-records').AsInteger;
+        LNumberRecords := Req.Query.Field('number-records').AsInteger;
 
       LJSONArray := TJSONArray.Create;
-      for i := 1 to LNumRegistrosGerar do
+      for i := 1 to LNumberRecords do
       begin
-        LJSONObjectCliente := TJSONObject.Create;
-        LJSONObjectCliente.AddPair('id', TJSONNumber.Create(i));
-        LJSONObjectCliente.AddPair('name', 'Name Client ' + i.ToString);
-        LJSONObjectCliente.AddPair('email','name' + i.ToString + '@code4delphi.com.br');
-        LJSONArray.AddElement(LJSONObjectCliente);
+        LJSONObjectClient := TJSONObject.Create;
+        LJSONObjectClient.AddPair('id', TJSONNumber.Create(i));
+        LJSONObjectClient.AddPair('name', 'Name Client ' + i.ToString);
+        LJSONObjectClient.AddPair('email', 'name' + i.ToString + '@code4delphi.com.br');
+        LJSONArray.AddElement(LJSONObjectClient);
       end;
 
-      LJSONObjectRetorno := TJSONObject.Create;
-      LJSONObjectRetorno.AddPair('data', LJSONArray);
-      LJSONObjectRetorno.AddPair('records', TJSONNumber.Create(LNumRegistrosGerar));
-      Res.Send<TJSONObject>(LJSONObjectRetorno);
+      LJSONObjectResult := TJSONObject.Create;
+      LJSONObjectResult.AddPair('data', LJSONArray);
+      LJSONObjectResult.AddPair('records', TJSONNumber.Create(LNumberRecords));
+      Res.Send<TJSONObject>(LJSONObjectResult);
     end);
 
   THorse.Get('/clients/:id',
@@ -63,7 +63,7 @@ begin
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair('id', TJSONNumber.Create(LId.ToInteger));
       LJSONObject.AddPair('name', 'Name Client ' + LId);
-      LJSONObject.AddPair('email','name' + LId + '@code4delphi.com.br');
+      LJSONObject.AddPair('email', 'name' + LId + '@code4delphi.com.br');
       Res.Send<TJSONObject>(LJSONObject);
     end);
 

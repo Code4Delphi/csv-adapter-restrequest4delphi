@@ -71,7 +71,6 @@ object ViewMain: TViewMain
       NumbersOnly = True
       TabOrder = 0
       Text = '5'
-      ExplicitLeft = 553
       ExplicitHeight = 21
     end
     object edtBaseURL: TEdit

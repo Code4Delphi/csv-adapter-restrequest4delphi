@@ -1,0 +1,9 @@
+{
+	"name": "csv-adapter-restrequest4delphi",
+	"description": "This is the adapter for generating CSV files for RESTRequest4Delphi",
+	"version": "1.0.0",
+	"homepage": "https://github.com/Code4Delphi/csv-adapter-restrequest4delphi",
+	"mainsrc": "Src",
+	"projects": [],
+	"dependencies": {}
+}
