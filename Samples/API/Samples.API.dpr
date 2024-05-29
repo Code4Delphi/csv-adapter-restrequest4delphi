@@ -8,8 +8,7 @@ uses
   System.SysUtils,
   System.JSON,
   Horse,
-  Horse.Jhonson,
-  Horse.HandleException;
+  Horse.Jhonson;
 
 const
   PORT = 9050;
@@ -24,36 +23,36 @@ begin
       Res.Send('pong');
     end);
 
-  THorse.Get('/clientes',
+  THorse.Get('/clients',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     var
-      LJSONObjectRetorno: TJSONObject;
-      LJSONObjectCliente: TJSONObject;
+      LJSONObjectResult: TJSONObject;
+      LJSONObjectClient: TJSONObject;
       LJSONArray: TJSONArray;
-      LNumRegistrosGerar: Integer;
+      LNumberRecords: Integer;
       i: Integer;
     begin
-      LNumRegistrosGerar := 10;
-      if Req.Query.ContainsKey('numero-registros-gerar') then
-        LNumRegistrosGerar := Req.Query.Field('numero-registros-gerar').AsInteger;
+      LNumberRecords := 10;
+      if Req.Query.ContainsKey('number-records') then
+        LNumberRecords := Req.Query.Field('number-records').AsInteger;
 
       LJSONArray := TJSONArray.Create;
-      for i := 1 to LNumRegistrosGerar do
+      for i := 1 to LNumberRecords do
       begin
-        LJSONObjectCliente := TJSONObject.Create;
-        LJSONObjectCliente.AddPair('id', TJSONNumber.Create(i));
-        LJSONObjectCliente.AddPair('nome', 'Nome cliente ' + i.ToString);
-        LJSONObjectCliente.AddPair('email','nome' + i.ToString + '@code4delphi.com.br');
-        LJSONArray.AddElement(LJSONObjectCliente);
+        LJSONObjectClient := TJSONObject.Create;
+        LJSONObjectClient.AddPair('id', TJSONNumber.Create(i));
+        LJSONObjectClient.AddPair('name', 'Name Client ' + i.ToString);
+        LJSONObjectClient.AddPair('email', 'name' + i.ToString + '@code4delphi.com.br');
+        LJSONArray.AddElement(LJSONObjectClient);
       end;
 
-      LJSONObjectRetorno := TJSONObject.Create;
-      LJSONObjectRetorno.AddPair('data', LJSONArray);
-      LJSONObjectRetorno.AddPair('records', TJSONNumber.Create(LNumRegistrosGerar));
-      Res.Send<TJSONObject>(LJSONObjectRetorno);
+      LJSONObjectResult := TJSONObject.Create;
+      LJSONObjectResult.AddPair('data', LJSONArray);
+      LJSONObjectResult.AddPair('records', TJSONNumber.Create(LNumberRecords));
+      Res.Send<TJSONObject>(LJSONObjectResult);
     end);
 
-  THorse.Get('/clientes/:id',
+  THorse.Get('/clients/:id',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
     var
       LJSONObject: TJSONObject;
@@ -63,14 +62,14 @@ begin
 
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair('id', TJSONNumber.Create(LId.ToInteger));
-      LJSONObject.AddPair('nome', 'Nome cliente ' + LId);
-      LJSONObject.AddPair('email','nome' + LId + '@code4delphi.com.br');
+      LJSONObject.AddPair('name', 'Name Client ' + LId);
+      LJSONObject.AddPair('email', 'name' + LId + '@code4delphi.com.br');
       Res.Send<TJSONObject>(LJSONObject);
     end);
 
   THorse.Listen(PORT,
     procedure
     begin
-      Writeln('Porta atual: ' + PORT.ToString);
+      Writeln('CSV Adapter For RESTRequest4D is running on the port ' + PORT.ToString);
     end);
 end.

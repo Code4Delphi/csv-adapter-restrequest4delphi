@@ -4,11 +4,11 @@ interface
 
 uses
   System.SysUtils,
-  System.StrUtils,
   System.JSON,
   System.Generics.Collections,
   System.Classes,
   VCL.Dialogs,
+  CSV.Adapter.RESTRequest4D.Config,
   RESTRequest4D.Request.Adapter.Contract;
 
 type
@@ -27,8 +27,8 @@ type
     procedure GetItems(const AJSONObject: TJSONObject);
     procedure GetColumns(const AJSONObject: TJSONObject);
     procedure ProcessResult;
-    function RemoveLastChar(const AValue: string): string;
   public
+    class function Config: TCSVAdapterRESTRequest4DConfig;
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
     class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
     constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
@@ -37,6 +37,14 @@ type
   end;
 
 implementation
+
+uses
+  CSV.Adapter.RESTRequest4D.Utils;
+
+class function TCSVAdapterRESTRequest4D.Config: TCSVAdapterRESTRequest4DConfig;
+begin
+  Result := TCSVAdapterRESTRequest4DConfig.GetInstance;
+end;
 
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter;
 begin
@@ -59,7 +67,7 @@ end;
 constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string = '');
 begin
   FStringListResult := AStringList;
-  Self.Create('', ARootElement)
+  Self.Create('', ARootElement);
 end;
 
 destructor TCSVAdapterRESTRequest4D.Destroy;
@@ -98,11 +106,11 @@ begin
       raise Exception.Create('Root element not found');
 
     if LJSONValue.InheritsFrom(TJSONArray) then
-      Self.Process(LJSONValue.Clone as TJSONArray)
+      Self.Process(LJSONValue as TJSONArray)
     else
     begin
-      Self.GetColumns(LJSONValue.Clone as TJSONObject);
-      Self.GetItems(LJSONValue.Clone as TJSONObject);
+      Self.GetColumns(LJSONValue as TJSONObject);
+      Self.GetItems(LJSONValue as TJSONObject);
     end;
   finally
     AJSONObject.Free;
@@ -116,35 +124,15 @@ begin
   if not Assigned(AJSONArray) then
     Exit;
 
-  try
-    for i := 0 to Pred(AJSONArray.Count) do
+  for i := 0 to Pred(AJSONArray.Count) do
+  begin
+    if AJSONArray.Items[i] is TJSONObject then
     begin
-      if AJSONArray.Items[i] is TJSONObject then
-      begin
-        if not FCaptionsCreated then
-          Self.GetColumns(AJSONArray.Items[i].Clone as TJSONObject);
+      if not FCaptionsCreated then
+        Self.GetColumns(AJSONArray.Items[i] as TJSONObject);
 
-        Self.GetItems(AJSONArray.Items[i].Clone as TJSONObject);
-      end;
+      Self.GetItems(AJSONArray.Items[i] as TJSONObject);
     end;
-  finally
-    AJSONArray.Free;
-  end;
-end;
-
-procedure TCSVAdapterRESTRequest4D.GetItems(const AJSONObject: TJSONObject);
-var
-  LJSONPair: TJSONPair;
-  LLine: string;
-begin
-  try
-    LLine := '';
-    for LJSONPair in AJSONObject do
-      LLine := LLine + LJSONPair.JsonValue.Value  + ';';
-
-    FCSV.Add(Self.RemoveLastChar(LLine));
-  finally
-    AJSONObject.Free;
   end;
 end;
 
@@ -153,21 +141,24 @@ var
   LJSONPair: TJSONPair;
   LLine: string;
 begin
-  try
-    LLine := '';
-    for LJSONPair in AJSONObject do
-      LLine := LLine + LJSONPair.JsonString.Value  + ';';
+  LLine := '';
+  for LJSONPair in AJSONObject do
+    LLine := LLine +TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
 
-    FCSV.Add(Self.RemoveLastChar(LLine));
-    FCaptionsCreated := True;
-  finally
-    AJSONObject.Free;
-  end;
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
+  FCaptionsCreated := True;
 end;
 
-function TCSVAdapterRESTRequest4D.RemoveLastChar(const AValue: string): string;
+procedure TCSVAdapterRESTRequest4D.GetItems(const AJSONObject: TJSONObject);
+var
+  LJSONPair: TJSONPair;
+  LLine: string;
 begin
-  Result := copy(AValue, 1, Pred(AValue.Length));
+  LLine := '';
+  for LJSONPair in AJSONObject do
+    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
+
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
 end;
 
 procedure TCSVAdapterRESTRequest4D.ProcessResult;

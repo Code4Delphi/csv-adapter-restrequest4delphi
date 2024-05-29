@@ -4,12 +4,10 @@ interface
 
 uses
   Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
   System.Variants,
   System.Classes,
-  json,
-  REST.Json,
+  System.JSON,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -40,11 +38,18 @@ type
     Label4: TLabel;
     btnGetObjectToTString: TButton;
     btnGetArrayToTString: TButton;
+    GroupBox1: TGroupBox;
+    Label6: TLabel;
+    cBoxSeparator: TComboBox;
+    edtApplyConfigs: TButton;
+    Label5: TLabel;
+    edtResource: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnGetObjectSaveToFileClick(Sender: TObject);
     procedure btnGetArraySaveToFileClick(Sender: TObject);
     procedure btnGetObjectToTStringClick(Sender: TObject);
     procedure btnGetArrayToTStringClick(Sender: TObject);
+    procedure edtApplyConfigsClick(Sender: TObject);
   private
     function GetNameFile: string;
     function FormatJSON(AValue: string; Indentation: Integer = 2): string;
@@ -70,9 +75,9 @@ var
 begin
   LSaveDialog := TSaveDialog.Create(nil);
   try
-    LSaveDialog.Title := 'Salvar em arquivo';
+    LSaveDialog.Title := 'Save file in';
     LSaveDialog.DefaulText := '*.csv';
-    LSaveDialog.Filter := 'Arquivos CSV (*.csv)|*.csv|Todos os Arquivos (*.*)|*.*';
+    LSaveDialog.Filter := 'File CSV (*.csv)|*.csv|All files (*.*)|*.*';
     LSaveDialog.InitialDir := 'C:\Temp\';
     LSaveDialog.FileName := FormatDateTime('yyyyMMdd-hhnnss', now) + '.csv';
 
@@ -83,6 +88,11 @@ begin
   finally
     LSaveDialog.Free;
   end;
+end;
+
+procedure TViewMain.edtApplyConfigsClick(Sender: TObject);
+begin
+  TCSVAdapterRESTRequest4D.Config.Separator(cBoxSeparator.Text);
 end;
 
 function TViewMain.FormatJSON(AValue: string; Indentation: Integer = 2): string;
@@ -106,7 +116,7 @@ begin
   LNomeArquivo := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo))
     .Accept('application/json')
@@ -123,8 +133,8 @@ begin
   LNomeArquivo := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
-    .AddParam('numero-registros-gerar', edtNumRegistros.Text)
+    .Resource(edtResource.Text)
+    .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo, 'data'))
     .Accept('application/json')
     .Get;
@@ -137,7 +147,7 @@ var
   LResponse: IResponse;
 begin
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
+    .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines))
     .Accept('application/json')
@@ -151,8 +161,8 @@ var
   LResponse: IResponse;
 begin
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
-    .Resource('clientes')
-    .AddParam('numero-registros-gerar', edtNumRegistros.Text)
+    .Resource(edtResource.Text)
+    .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data'))
     .Accept('application/json')
     .Get;
