@@ -49,11 +49,21 @@ uses
   CSV.Adapter.RESTRequest4D;
 ```
 
-* Information exception:  
+* Getting the CSV for a TString:  
 ```delphi
 begin
   TRequest.New.BaseURL('http://localhost:9050/clients')
-    .Adapters(TDataSetSerializeAdapter.New(mtUsers, 'my-optional-root-element'))
+    .Adapters(TCSVAdapterRESTRequest4D.New(Memo1.Lines, 'optional-root-element'))
+    .Accept('application/json')
+    .Get;
+end;
+```
+
+* Automatically saving CSV to a file:  
+```delphi
+begin
+  TRequest.New.BaseURL('http://localhost:9050/clients')
+    .Adapters(TCSVAdapterRESTRequest4D.New('C:\Temp\MyFile.csv', 'optional-root-element'))
     .Accept('application/json')
     .Get;
 end;
@@ -61,9 +71,10 @@ end;
 
 
 ## ⌨️ Demo
-* Next to the project sources, you will find a test project, in the folder:
+* Along with the project sources, you will find test projects. The API and Client project are respectively in the folders:
 ```
-C4D-Exceptions\Samples\Demo01
+csv-adapter-restrequest4delphi\Samples\API
+csv-adapter-restrequest4delphi\Client
 ```
 
 
