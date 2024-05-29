@@ -1,4 +1,4 @@
-# csv Adapter for RESTRequest4Delphi
+# CSV Adapter for RESTRequest4Delphi
 
 This is the adapter for generating CSV files for [RESTRequest4Delphi](https://github.com/viniciussanchez/RESTRequest4Delphi). Allows you to generate a text or CSV file with the content of a request.
 
@@ -67,6 +67,13 @@ begin
     .Accept('application/json')
     .Get;
 end;
+```
+
+## ⚙ Configurations
+You can customize some features of CSV Adapter for RESTRequest4Delphi:
+* Separator (the default is ; (semicolon))
+```delphi
+TCSVAdapterRESTRequest4D.Config.Separator(';');
 ```
 
 
