@@ -16,12 +16,11 @@ type
   private
     FFileName: string;
     FRootElement: string;
-    FContent: string;
     FCSV: TStrings;
     FStringListResult: TStrings;
     FCaptionsCreated: Boolean;
     procedure Execute(const AContent: string);
-    procedure Process(const AJSONString: string); overload;
+    procedure Process(const AValue: string); overload;
     procedure Process(const AJSONObject: TJSONObject); overload;
     procedure Process(const AJSONArray: TJSONArray); overload;
     procedure GetItems(const AJSONObject: TJSONObject);
@@ -78,18 +77,60 @@ end;
 
 procedure TCSVAdapterRESTRequest4D.Execute(const AContent: string);
 begin
-  FContent := AContent.Trim;
-  Self.Process(AContent);
+  Self.Process(AContent.Trim);
 end;
 
-procedure TCSVAdapterRESTRequest4D.Process(const AJSONString: string);
+procedure TCSVAdapterRESTRequest4D.Process(const AValue: string);
 begin
-  if AJSONString.Trim.StartsWith('{') then
-    Self.Process(TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(AJSONString), 0) as TJSONObject)
-  else if Trim(AJSONString).StartsWith('[') then
-    Self.Process(TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(AJSONString), 0) as TJSONArray);
+  if AValue.Trim.StartsWith('{') then
+    Self.Process(TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(AValue), 0) as TJSONObject)
+  else if Trim(AValue).StartsWith('[') then
+    Self.Process(TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(AValue), 0) as TJSONArray);
 
   Self.ProcessResult;
+end;
+
+procedure TCSVAdapterRESTRequest4D.Process(const AJSONArray: TJSONArray);
+var
+  i: Integer;
+begin
+  if not Assigned(AJSONArray) then
+    Exit;
+
+  for i := 0 to Pred(AJSONArray.Count) do
+  begin
+    if AJSONArray.Items[i] is TJSONObject then
+    begin
+      if not FCaptionsCreated then
+        Self.GetColumns(AJSONArray.Items[i] as TJSONObject);
+
+      Self.GetItems(AJSONArray.Items[i] as TJSONObject);
+    end;
+  end;
+end;
+procedure TCSVAdapterRESTRequest4D.GetColumns(const AJSONObject: TJSONObject);
+var
+  LJSONPair: TJSONPair;
+  LLine: string;
+begin
+  LLine := '';
+  for LJSONPair in AJSONObject do
+    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
+
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
+  FCaptionsCreated := True;
+end;
+
+procedure TCSVAdapterRESTRequest4D.GetItems(const AJSONObject: TJSONObject);
+var
+  LJSONPair: TJSONPair;
+  LLine: string;
+begin
+  LLine := '';
+  for LJSONPair in AJSONObject do
+    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
+
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
 end;
 
 procedure TCSVAdapterRESTRequest4D.Process(const AJSONObject: TJSONObject);
@@ -115,50 +156,6 @@ begin
   finally
     AJSONObject.Free;
   end;
-end;
-
-procedure TCSVAdapterRESTRequest4D.Process(const AJSONArray: TJSONArray);
-var
-  i: Integer;
-begin
-  if not Assigned(AJSONArray) then
-    Exit;
-
-  for i := 0 to Pred(AJSONArray.Count) do
-  begin
-    if AJSONArray.Items[i] is TJSONObject then
-    begin
-      if not FCaptionsCreated then
-        Self.GetColumns(AJSONArray.Items[i] as TJSONObject);
-
-      Self.GetItems(AJSONArray.Items[i] as TJSONObject);
-    end;
-  end;
-end;
-
-procedure TCSVAdapterRESTRequest4D.GetColumns(const AJSONObject: TJSONObject);
-var
-  LJSONPair: TJSONPair;
-  LLine: string;
-begin
-  LLine := '';
-  for LJSONPair in AJSONObject do
-    LLine := LLine +TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
-
-  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
-  FCaptionsCreated := True;
-end;
-
-procedure TCSVAdapterRESTRequest4D.GetItems(const AJSONObject: TJSONObject);
-var
-  LJSONPair: TJSONPair;
-  LLine: string;
-begin
-  LLine := '';
-  for LJSONPair in AJSONObject do
-    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
-
-  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
 end;
 
 procedure TCSVAdapterRESTRequest4D.ProcessResult;

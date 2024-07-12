@@ -135,6 +135,7 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
+        ExplicitLeft = 1
       end
     end
     object GroupBox2: TGroupBox
