@@ -27,9 +27,12 @@ type
     procedure GetColumns(const AJSONObject: TJSONObject);
     procedure ProcessResult;
   public
-    class function Config: TCSVAdapterRESTRequest4DConfig;
+    ///class function Config: TCSVAdapterRESTRequest4DConfig;
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
+
     class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
+
+
     constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
     constructor Create(const AStringList: TStrings; const ARootElement: string = ''); overload;
     destructor Destroy; override;
