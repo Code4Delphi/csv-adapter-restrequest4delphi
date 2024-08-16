@@ -73,12 +73,32 @@ end;
 ```
 
 ## ⚙ Configurations
-You can customize some features of CSV Adapter for RESTRequest4Delphi:
-* Separator (the default is ; (semicolon))
+You can customize resources through the TCSVAdapterRESTRequest4DConfig class:
+* With Inline Settings
 ```delphi
-TCSVAdapterRESTRequest4D.Config.Separator(';');
+TRequest.New.BaseURL('http://localhost:9050/clients')
+    .Adapters(TCSVAdapterRESTRequest4D.New('C:\Temp\MyFile.csv', 'optional-root-element', TCSVAdapterRESTRequest4DConfig.New.Separator('|')))
+    .Accept('application/json')
+    .Get;
 ```
 
+* With Settings in variable
+```delphi
+procedure TViewMain.Button1Click(Sender: TObject);
+var
+  LResponse: IResponse;
+  LConfig: ICSVAdapterRESTRequest4DConfig;
+begin
+  LConfig := TCSVAdapterRESTRequest4DConfig.New.Separator(cBoxSeparator.Text);
+
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
+    .Resource(edtResource.Text)
+    .Adapters(TCSVAdapterRESTRequest4D.New('C:\Temp\MyFile.csv', 'optional-root-element', LConfig))
+    .Accept('application/json')
+    .Get;
+end;
+```
 
 ## ⌨️ Demo
 * Along with the project sources, you will find test projects. The API and Client project are respectively in the folders:
