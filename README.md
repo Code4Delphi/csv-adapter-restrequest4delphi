@@ -29,7 +29,7 @@ This is the adapter for generating CSV files for [RESTRequest4Delphi](https://gi
 This adapter must be used together with [RESTRequest4Delphi](https://github.com/viniciussanchez/RESTRequest4Delphi)
 
 
-## ⚙️ Installation
+## ⚡ Installation
 
 * Installation using the [**Boss**](https://github.com/HashLoad/boss):
 
