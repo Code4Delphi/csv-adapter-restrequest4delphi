@@ -111,14 +111,14 @@ end;
 procedure TViewMain.btnGetObjectSaveToFileClick(Sender: TObject);
 var
   LResponse: IResponse;
-  LNomeArquivo: string;
+  LNameFile: string;
 begin
-  LNomeArquivo := Self.GetNameFile;
+  LNameFile := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
-    .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo))
+    .Adapters(TCSVAdapterRESTRequest4D.New(LNameFile))
     .Accept('application/json')
     .Get;
 
@@ -128,14 +128,14 @@ end;
 procedure TViewMain.btnGetArraySaveToFileClick(Sender: TObject);
 var
   LResponse: IResponse;
-  LNomeArquivo: string;
+  LNameFile: string;
 begin
-  LNomeArquivo := Self.GetNameFile;
+  LNameFile := Self.GetNameFile;
 
   LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .AddParam('number-records', edtNumRegistros.Text)
-    .Adapters(TCSVAdapterRESTRequest4D.New(LNomeArquivo, 'data'))
+    .Adapters(TCSVAdapterRESTRequest4D.New(LNameFile, 'data'))
     .Accept('application/json')
     .Get;
 

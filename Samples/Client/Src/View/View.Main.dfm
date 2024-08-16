@@ -135,7 +135,6 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitLeft = 1
       end
     end
     object GroupBox2: TGroupBox
@@ -188,6 +187,7 @@ object ViewMain: TViewMain
       Caption = 'Get Object - Save to file'
       TabOrder = 0
       OnClick = btnGetObjectSaveToFileClick
+      ExplicitTop = 2
     end
     object btnGetArraySaveToFile: TButton
       AlignWithMargins = True
@@ -199,6 +199,7 @@ object ViewMain: TViewMain
       Caption = 'Get Array - Save to file'
       TabOrder = 1
       OnClick = btnGetArraySaveToFileClick
+      ExplicitTop = 2
     end
   end
   object Panel3: TPanel
@@ -294,6 +295,7 @@ object ViewMain: TViewMain
       Caption = 'Apply Config'
       TabOrder = 1
       OnClick = edtApplyConfigsClick
+      ExplicitTop = 17
     end
   end
 end

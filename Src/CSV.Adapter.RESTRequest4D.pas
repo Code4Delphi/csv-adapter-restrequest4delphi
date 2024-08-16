@@ -14,6 +14,7 @@ uses
 type
   TCSVAdapterRESTRequest4D = class(TInterfacedObject, IRequestAdapter)
   private
+    FConfig: TCSVAdapterRESTRequest4DConfig;
     FFileName: string;
     FRootElement: string;
     FCSV: TStrings;
@@ -27,26 +28,20 @@ type
     procedure GetColumns(const AJSONObject: TJSONObject);
     procedure ProcessResult;
   public
-    ///class function Config: TCSVAdapterRESTRequest4DConfig;
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
+    constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
 
     class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
-
-
-    constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
     constructor Create(const AStringList: TStrings; const ARootElement: string = ''); overload;
+
     destructor Destroy; override;
+    function Config: TCSVAdapterRESTRequest4DConfig;
   end;
 
 implementation
 
 uses
   CSV.Adapter.RESTRequest4D.Utils;
-
-class function TCSVAdapterRESTRequest4D.Config: TCSVAdapterRESTRequest4DConfig;
-begin
-  Result := TCSVAdapterRESTRequest4DConfig.GetInstance;
-end;
 
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter;
 begin
@@ -60,6 +55,7 @@ end;
 
 constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string = '');
 begin
+  FConfig := TCSVAdapterRESTRequest4DConfig.Create(Self);
   FFileName := AFileName;
   FRootElement := ARootElement;
   FCaptionsCreated := False;
@@ -76,6 +72,11 @@ destructor TCSVAdapterRESTRequest4D.Destroy;
 begin
   FCSV.Free;
   inherited;
+end;
+
+function TCSVAdapterRESTRequest4D.Config: TCSVAdapterRESTRequest4DConfig;
+begin
+  Result := FConfig;
 end;
 
 procedure TCSVAdapterRESTRequest4D.Execute(const AContent: string);

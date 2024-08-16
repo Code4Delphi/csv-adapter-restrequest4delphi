@@ -3,43 +3,34 @@ unit CSV.Adapter.RESTRequest4D.Config;
 interface
 
 uses
-  System.SysUtils;
+  System.SysUtils,
+  RESTRequest4D.Request.Adapter.Contract;
 
 type
   TCSVAdapterRESTRequest4DConfig = class
   private
+    FParent: IRequestAdapter;
     FSeparator: string;
-    constructor Create;
   public
-    class function GetInstance: TCSVAdapterRESTRequest4DConfig;
+    constructor Create(const AParent: IRequestAdapter);
     function Separator: string; overload;
     function Separator(const Value: string): TCSVAdapterRESTRequest4DConfig; overload;
+    function End_: IRequestAdapter;
   end;
 
 implementation
 
-var
-  Instance: TCSVAdapterRESTRequest4DConfig;
-
 const
   SEMICOLON = ';';
 
-constructor TCSVAdapterRESTRequest4DConfig.Create;
+constructor TCSVAdapterRESTRequest4DConfig.Create(const AParent: IRequestAdapter);
 begin
+  FParent := AParent;
   FSeparator := SEMICOLON;
-end;
-
-class function TCSVAdapterRESTRequest4DConfig.GetInstance: TCSVAdapterRESTRequest4DConfig;
-begin
-  if(not Assigned(Instance))then
-    Instance := Self.Create;
-  Result := Instance;
 end;
 
 function TCSVAdapterRESTRequest4DConfig.Separator: string;
 begin
-  if FSeparator.Trim.IsEmpty then
-    FSeparator := SEMICOLON;
   Result := FSeparator;
 end;
 
@@ -47,12 +38,14 @@ function TCSVAdapterRESTRequest4DConfig.Separator(const Value: string): TCSVAdap
 begin
   Result := Self;
   FSeparator := Value;
+
+  if FSeparator.Trim.IsEmpty then
+    FSeparator := SEMICOLON;
 end;
 
-initialization
-
-finalization
-  if(Assigned(Instance))then
-    FreeAndNil(Instance);
+function TCSVAdapterRESTRequest4DConfig.End_: IRequestAdapter;
+begin
+  Result := FParent;
+end;
 
 end.
