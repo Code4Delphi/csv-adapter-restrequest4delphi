@@ -86,7 +86,8 @@ TCSVAdapterRESTRequest4D.Config.Separator(';');
 csv-adapter-restrequest4delphi\Samples\API
 csv-adapter-restrequest4delphi\Client
 ```
-![image](https://github.com/Code4Delphi/csv-adapter-restrequest4delphi/assets/33873267/1fc21749-d540-4af1-ac62-c3cf6b78390e)
+![image](https://github.com/user-attachments/assets/ba99d0c6-da6f-4609-9ac3-40490dd7de1c)
+
 
 
 ‌
