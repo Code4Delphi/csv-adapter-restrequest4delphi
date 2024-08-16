@@ -1,7 +1,7 @@
 object ViewMain: TViewMain
   Left = 0
   Top = 0
-  Caption = 'CSV Adapter For Restrequest4Delphi'
+  Caption = 'CSV Adapter For RestRequest4Delphi'
   ClientHeight = 541
   ClientWidth = 984
   Color = clBtnFace
@@ -105,17 +105,19 @@ object ViewMain: TViewMain
   end
   object Panel1: TPanel
     Left = 0
-    Top = 172
+    Top = 217
     Width = 984
-    Height = 369
+    Height = 324
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
+    ExplicitTop = 172
+    ExplicitHeight = 369
     object Splitter1: TSplitter
       Left = 505
       Top = 0
-      Height = 369
+      Height = 324
       ExplicitLeft = 480
       ExplicitTop = 200
       ExplicitHeight = 100
@@ -124,15 +126,16 @@ object ViewMain: TViewMain
       Left = 0
       Top = 0
       Width = 505
-      Height = 369
+      Height = 324
       Align = alLeft
       Caption = ' JSON '
       TabOrder = 0
+      ExplicitHeight = 369
       object mmJSON: TMemo
         Left = 2
         Top = 15
         Width = 501
-        Height = 352
+        Height = 307
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
@@ -144,18 +147,21 @@ object ViewMain: TViewMain
       Left = 508
       Top = 0
       Width = 476
-      Height = 369
+      Height = 324
       Align = alClient
       Caption = ' CSV '
       TabOrder = 1
+      ExplicitHeight = 369
       object mmCSV: TMemo
         Left = 2
         Top = 15
         Width = 472
-        Height = 352
+        Height = 307
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
+        ExplicitLeft = 3
+        ExplicitTop = 14
       end
     end
   end
@@ -257,77 +263,91 @@ object ViewMain: TViewMain
     Left = 0
     Top = 123
     Width = 984
-    Height = 49
+    Height = 94
     Align = alTop
     Caption = '   Configuration '
     TabOrder = 4
-    ExplicitTop = 124
-    object Label6: TLabel
-      AlignWithMargins = True
-      Left = 5
-      Top = 18
-      Width = 71
-      Height = 26
-      Align = alLeft
-      AutoSize = False
-      Caption = 'Separator:'
-      Layout = tlCenter
-      ExplicitLeft = 3
-      ExplicitTop = 3
-      ExplicitHeight = 33
-    end
-    object Label7: TLabel
-      AlignWithMargins = True
-      Left = 135
-      Top = 18
-      Width = 71
-      Height = 26
-      Align = alLeft
-      AutoSize = False
-      Caption = 'Get to TString:'
-      Layout = tlCenter
-      ExplicitLeft = 677
-      ExplicitTop = 6
-    end
-    object cBoxSeparator: TComboBox
-      AlignWithMargins = True
-      Left = 82
-      Top = 20
-      Width = 47
-      Height = 21
-      Margins.Top = 5
-      Margins.Bottom = 8
-      Align = alLeft
-      ItemIndex = 0
+    object Panel4: TPanel
+      Left = 2
+      Top = 51
+      Width = 980
+      Height = 41
+      Align = alTop
+      BevelOuter = bvNone
+      Padding.Left = 3
+      Padding.Top = 3
+      Padding.Right = 3
+      Padding.Bottom = 3
+      ParentBackground = False
       TabOrder = 0
-      Text = ';'
-      Items.Strings = (
-        ';'
-        '|')
+      ExplicitLeft = 82
+      ExplicitTop = 55
+      object btnGetObjectToTStringConfig: TButton
+        AlignWithMargins = True
+        Left = 6
+        Top = 6
+        Width = 230
+        Height = 29
+        Align = alLeft
+        Caption = 'Test with Inline Settings (Get Object)'
+        TabOrder = 0
+        OnClick = btnGetObjectToTStringConfigClick
+      end
+      object btnGetArrayToTStringConfig: TButton
+        AlignWithMargins = True
+        Left = 242
+        Top = 6
+        Width = 230
+        Height = 29
+        Align = alLeft
+        Caption = 'Test with Settings in variable (Get Array)'
+        TabOrder = 1
+        OnClick = btnGetArrayToTStringConfigClick
+      end
     end
-    object btnGetObjectToTStringConfig: TButton
-      AlignWithMargins = True
-      Left = 212
-      Top = 18
-      Width = 238
-      Height = 26
-      Align = alLeft
-      Caption = 'Get Object - With Inline Settings'
+    object Panel5: TPanel
+      Left = 2
+      Top = 15
+      Width = 980
+      Height = 36
+      Align = alTop
+      BevelOuter = bvNone
+      Padding.Left = 3
+      Padding.Top = 3
+      Padding.Right = 3
+      Padding.Bottom = 3
+      ParentBackground = False
       TabOrder = 1
-      OnClick = btnGetObjectToTStringConfigClick
-    end
-    object btnGetArrayToTStringConfig: TButton
-      AlignWithMargins = True
-      Left = 456
-      Top = 18
-      Width = 153
-      Height = 26
-      Align = alLeft
-      Caption = 'Get Array - With Settings in variable'
-      TabOrder = 2
-      OnClick = btnGetArrayToTStringConfigClick
-      ExplicitLeft = 371
-      ExplicitTop = 17
+      object Label6: TLabel
+        AlignWithMargins = True
+        Left = 6
+        Top = 6
+        Width = 55
+        Height = 24
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Separator:'
+        Layout = tlCenter
+      end
+      object cBoxSeparator: TComboBox
+        AlignWithMargins = True
+        Left = 67
+        Top = 8
+        Width = 47
+        Height = 21
+        Margins.Top = 5
+        Margins.Bottom = 8
+        Align = alLeft
+        ItemIndex = 0
+        MaxLength = 1
+        TabOrder = 0
+        Text = ';'
+        Items.Strings = (
+          ';'
+          '|')
+        ExplicitLeft = 82
+        ExplicitTop = 18
+      end
     end
   end
 end

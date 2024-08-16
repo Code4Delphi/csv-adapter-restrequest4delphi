@@ -39,13 +39,14 @@ type
     btnGetObjectToTString: TButton;
     btnGetArrayToTString: TButton;
     GroupBox1: TGroupBox;
-    Label6: TLabel;
-    cBoxSeparator: TComboBox;
     Label5: TLabel;
     edtResource: TEdit;
-    Label7: TLabel;
+    Panel4: TPanel;
+    Panel5: TPanel;
     btnGetObjectToTStringConfig: TButton;
     btnGetArrayToTStringConfig: TButton;
+    cBoxSeparator: TComboBox;
+    Label6: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnGetObjectSaveToFileClick(Sender: TObject);
     procedure btnGetArraySaveToFileClick(Sender: TObject);

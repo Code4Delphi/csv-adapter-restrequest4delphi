@@ -34,26 +34,19 @@ type
     procedure ProcessResult;
   public
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
-    constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
-
     class function New(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
-    constructor Create(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
-
     class function New(const AFileName: string; const ARootElement: string;
       const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
-    constructor Create(const AFileName: string; const ARootElement: string;
-      const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
 
-    class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
-    constructor Create(const AStringList: TStrings; const ARootElement: string = ''); overload;
-
-    class function New(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
-    constructor Create(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
-
-    class function New(const AStringList: TStrings; const ARootElement: string;
+    class function New(const AStList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
+     class function New(const AStList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
+     class function New(const AStList: TStrings; const ARootElement: string;
       const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
-    constructor Create(const AStringList: TStrings; const ARootElement: string;
-      const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
+
+    constructor Create(const AFileName: string; const ARootElement: string = '';
+      const AConfig: ICSVAdapterRESTRequest4DConfig = nil); overload;
+    constructor Create(const AStList: TStrings; const ARootElement: string = '';
+      const AConfig: ICSVAdapterRESTRequest4DConfig = nil); overload;
 
     destructor Destroy; override;
   end;
@@ -77,22 +70,9 @@ begin
   Result := Self.Create(AFileName, ARootElement);
 end;
 
-constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string = '');
-begin
-  Self.CreateInternal;
-  FFileName := AFileName;
-  FRootElement := ARootElement;
-end;
-
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
 begin
-  Result := Self.Create(AFileName, AConfig);
-end;
-
-constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig);
-begin
-  Self.CreateInternal(AConfig);
-  FFileName := AFileName;
+  Result := Self.Create(AFileName, '', AConfig);
 end;
 
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string;
@@ -101,48 +81,34 @@ begin
   Self.Create(AFileName, ARootElement, AConfig);
 end;
 
-constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string;
-  const AConfig: ICSVAdapterRESTRequest4DConfig);
+class function TCSVAdapterRESTRequest4D.New(const AStList: TStrings; const ARootElement: string = ''): IRequestAdapter;
+begin
+  Result := Self.Create(AStList, ARootElement);
+end;
+
+class function TCSVAdapterRESTRequest4D.New(const AStList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Result := Self.Create(AStList, '', AConfig);
+end;
+class function TCSVAdapterRESTRequest4D.New(const AStList: TStrings; const ARootElement: string;
+  const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Result := Self.Create(AStList, ARootElement, AConfig);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string = '';
+  const AConfig: ICSVAdapterRESTRequest4DConfig = nil);
 begin
   Self.CreateInternal(AConfig);
   FFileName := AFileName;
   FRootElement := ARootElement;
 end;
 
-class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter;
-begin
-  Result := Self.Create(AStringList, ARootElement);
-end;
-
-constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string = '');
-begin
-  Self.CreateInternal;
-  FStringListResult := AStringList;
-  FRootElement := ARootElement;
-end;
-
-class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
-begin
-  Result := Self.Create(AStringList, AConfig);
-end;
-
-constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig);
+constructor TCSVAdapterRESTRequest4D.Create(const AStList: TStrings; const ARootElement: string = '';
+  const AConfig: ICSVAdapterRESTRequest4DConfig = nil);
 begin
   Self.CreateInternal(AConfig);
-  FStringListResult := AStringList;
-end;
-
-class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const ARootElement: string;
-  const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
-begin
-  Result := Self.Create(AStringList, ARootElement, AConfig);
-end;
-
-constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string;
-  const AConfig: ICSVAdapterRESTRequest4DConfig);
-begin
-  Self.CreateInternal(AConfig);
-  FStringListResult := AStringList;
+  FStringListResult := AStList;
   FRootElement := ARootElement;
 end;
 
