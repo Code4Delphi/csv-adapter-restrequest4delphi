@@ -26,7 +26,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 49
     object Label1: TLabel
       AlignWithMargins = True
       Left = 454
@@ -112,8 +111,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 172
-    ExplicitHeight = 369
     object Splitter1: TSplitter
       Left = 505
       Top = 0
@@ -130,7 +127,6 @@ object ViewMain: TViewMain
       Align = alLeft
       Caption = ' JSON '
       TabOrder = 0
-      ExplicitHeight = 369
       object mmJSON: TMemo
         Left = 2
         Top = 15
@@ -151,7 +147,6 @@ object ViewMain: TViewMain
       Align = alClient
       Caption = ' CSV '
       TabOrder = 1
-      ExplicitHeight = 369
       object mmCSV: TMemo
         Left = 2
         Top = 15
@@ -160,8 +155,6 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = 14
       end
     end
   end
@@ -175,7 +168,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 90
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
@@ -197,7 +189,6 @@ object ViewMain: TViewMain
       Caption = 'Get Object - Save to file'
       TabOrder = 0
       OnClick = btnGetObjectSaveToFileClick
-      ExplicitTop = 2
     end
     object btnGetArraySaveToFile: TButton
       AlignWithMargins = True
@@ -209,7 +200,6 @@ object ViewMain: TViewMain
       Caption = 'Get Array - Save to file'
       TabOrder = 1
       OnClick = btnGetArraySaveToFileClick
-      ExplicitTop = 2
     end
   end
   object Panel3: TPanel
@@ -222,7 +212,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
-    ExplicitTop = 83
     object Label4: TLabel
       AlignWithMargins = True
       Left = 3
@@ -245,7 +234,6 @@ object ViewMain: TViewMain
       Caption = 'Get Object - To TString'
       TabOrder = 0
       OnClick = btnGetObjectToTStringClick
-      ExplicitTop = 2
     end
     object btnGetArrayToTString: TButton
       AlignWithMargins = True
@@ -280,8 +268,6 @@ object ViewMain: TViewMain
       Padding.Bottom = 3
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 82
-      ExplicitTop = 55
       object btnGetObjectToTStringConfig: TButton
         AlignWithMargins = True
         Left = 6
@@ -345,8 +331,6 @@ object ViewMain: TViewMain
         Items.Strings = (
           ';'
           '|')
-        ExplicitLeft = 82
-        ExplicitTop = 18
       end
     end
   end

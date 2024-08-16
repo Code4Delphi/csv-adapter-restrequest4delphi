@@ -198,7 +198,6 @@ begin
   LResponse := TRequest.New
     .BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
-    .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data', LConfig))
     .Accept('application/json')
     .Get;
