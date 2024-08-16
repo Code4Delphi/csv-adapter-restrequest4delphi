@@ -9,9 +9,9 @@ type
   TCSVAdapterRESTRequest4DUtils = class
   private
   public
-    class function RemoveLastChar(const AValue: string): string;
+    class function RemoveLastSeparator(const AValue: string; const ASeparator: string): string;
     ///<summary>Remove if the string has characters used as separator</summary>
-    class function PrepareStr(const AValue: string): string;
+    class function PrepareStr(const AValue: string; const ASeparator: string): string;
   end;
 
 implementation
@@ -19,17 +19,17 @@ implementation
 uses
   CSV.Adapter.RESTRequest4D.Config;
 
-class function TCSVAdapterRESTRequest4DUtils.RemoveLastChar(const AValue: string): string;
+class function TCSVAdapterRESTRequest4DUtils.RemoveLastSeparator(const AValue: string; const ASeparator: string): string;
 begin
   Result := AValue.Trim;
 
-  if Result.EndsWith(TCSVAdapterRESTRequest4DConfig.GetInstance.Separator) then
+  if Result.EndsWith(ASeparator) then
     Result := copy(AValue, 1, Pred(AValue.Length));
 end;
 
-class function TCSVAdapterRESTRequest4DUtils.PrepareStr(const AValue: string): string;
+class function TCSVAdapterRESTRequest4DUtils.PrepareStr(const AValue: string; const ASeparator: string): string;
 begin
-  Result := AValue.Replace(TCSVAdapterRESTRequest4DConfig.GetInstance.Separator, '', [rfReplaceAll, rfIgnoreCase]);
+  Result := AValue.Replace(ASeparator, '', [rfReplaceAll, rfIgnoreCase]);
 end;
 
 end.

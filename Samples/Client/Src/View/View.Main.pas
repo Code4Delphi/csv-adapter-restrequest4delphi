@@ -41,15 +41,18 @@ type
     GroupBox1: TGroupBox;
     Label6: TLabel;
     cBoxSeparator: TComboBox;
-    edtApplyConfigs: TButton;
     Label5: TLabel;
     edtResource: TEdit;
+    Label7: TLabel;
+    btnGetObjectToTStringConfig: TButton;
+    btnGetArrayToTStringConfig: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnGetObjectSaveToFileClick(Sender: TObject);
     procedure btnGetArraySaveToFileClick(Sender: TObject);
     procedure btnGetObjectToTStringClick(Sender: TObject);
     procedure btnGetArrayToTStringClick(Sender: TObject);
-    procedure edtApplyConfigsClick(Sender: TObject);
+    procedure btnGetObjectToTStringConfigClick(Sender: TObject);
+    procedure btnGetArrayToTStringConfigClick(Sender: TObject);
   private
     function GetNameFile: string;
     function FormatJSON(AValue: string; Indentation: Integer = 2): string;
@@ -90,11 +93,6 @@ begin
   end;
 end;
 
-procedure TViewMain.edtApplyConfigsClick(Sender: TObject);
-begin
-  TCSVAdapterRESTRequest4D.Config.Separator(cBoxSeparator.Text);
-end;
-
 function TViewMain.FormatJSON(AValue: string; Indentation: Integer = 2): string;
 var
   LJSONValue: TJSONValue;
@@ -115,7 +113,8 @@ var
 begin
   LNameFile := Self.GetNameFile;
 
-  LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNameFile))
@@ -132,7 +131,8 @@ var
 begin
   LNameFile := Self.GetNameFile;
 
-  LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(LNameFile, 'data'))
@@ -146,7 +146,8 @@ procedure TViewMain.btnGetObjectToTStringClick(Sender: TObject);
 var
   LResponse: IResponse;
 begin
-  LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .ResourceSuffix(edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines))
@@ -160,10 +161,44 @@ procedure TViewMain.btnGetArrayToTStringClick(Sender: TObject);
 var
   LResponse: IResponse;
 begin
-  LResponse := TRequest.New.BaseURL(edtBaseURL.Text)
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
     .Resource(edtResource.Text)
     .AddParam('number-records', edtNumRegistros.Text)
     .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data'))
+    .Accept('application/json')
+    .Get;
+
+  mmJSON.Lines.Text := FormatJSON(LResponse.Content);
+end;
+
+procedure TViewMain.btnGetObjectToTStringConfigClick(Sender: TObject);
+var
+  LResponse: IResponse;
+begin
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
+    .Resource(edtResource.Text)
+    .ResourceSuffix(edtNumRegistros.Text)
+    .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, TCSVAdapterRESTRequest4DConfig.New.Separator(cBoxSeparator.Text)))
+    .Accept('application/json')
+    .Get;
+
+  mmJSON.Lines.Text := FormatJSON(LResponse.Content);
+end;
+
+procedure TViewMain.btnGetArrayToTStringConfigClick(Sender: TObject);
+var
+  LResponse: IResponse;
+  LConfig: ICSVAdapterRESTRequest4DConfig;
+begin
+  LConfig := TCSVAdapterRESTRequest4DConfig.New.Separator(cBoxSeparator.Text);
+
+  LResponse := TRequest.New
+    .BaseURL(edtBaseURL.Text)
+    .Resource(edtResource.Text)
+    .AddParam('number-records', edtNumRegistros.Text)
+    .Adapters(TCSVAdapterRESTRequest4D.New(mmCSV.Lines, 'data', LConfig))
     .Accept('application/json')
     .Get;
 

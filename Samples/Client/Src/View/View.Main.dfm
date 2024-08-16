@@ -17,7 +17,7 @@ object ViewMain: TViewMain
   TextHeight = 13
   object Panel9: TPanel
     Left = 0
-    Top = 49
+    Top = 0
     Width = 984
     Height = 41
     Align = alTop
@@ -26,6 +26,7 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 49
     object Label1: TLabel
       AlignWithMargins = True
       Left = 454
@@ -135,6 +136,8 @@ object ViewMain: TViewMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
+        ExplicitLeft = 3
+        ExplicitTop = 14
       end
     end
     object GroupBox2: TGroupBox
@@ -158,7 +161,7 @@ object ViewMain: TViewMain
   end
   object Panel2: TPanel
     Left = 0
-    Top = 90
+    Top = 41
     Width = 984
     Height = 41
     Align = alTop
@@ -166,6 +169,7 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 2
+    ExplicitTop = 90
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
@@ -204,7 +208,7 @@ object ViewMain: TViewMain
   end
   object Panel3: TPanel
     Left = 0
-    Top = 131
+    Top = 82
     Width = 984
     Height = 41
     Align = alTop
@@ -212,6 +216,7 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
+    ExplicitTop = 83
     object Label4: TLabel
       AlignWithMargins = True
       Left = 3
@@ -234,6 +239,7 @@ object ViewMain: TViewMain
       Caption = 'Get Object - To TString'
       TabOrder = 0
       OnClick = btnGetObjectToTStringClick
+      ExplicitTop = 2
     end
     object btnGetArrayToTString: TButton
       AlignWithMargins = True
@@ -249,12 +255,13 @@ object ViewMain: TViewMain
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 0
+    Top = 123
     Width = 984
     Height = 49
     Align = alTop
     Caption = '   Configuration '
     TabOrder = 4
+    ExplicitTop = 124
     object Label6: TLabel
       AlignWithMargins = True
       Left = 5
@@ -268,6 +275,19 @@ object ViewMain: TViewMain
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitHeight = 33
+    end
+    object Label7: TLabel
+      AlignWithMargins = True
+      Left = 135
+      Top = 18
+      Width = 71
+      Height = 26
+      Align = alLeft
+      AutoSize = False
+      Caption = 'Get to TString:'
+      Layout = tlCenter
+      ExplicitLeft = 677
+      ExplicitTop = 6
     end
     object cBoxSeparator: TComboBox
       AlignWithMargins = True
@@ -285,16 +305,28 @@ object ViewMain: TViewMain
         ';'
         '|')
     end
-    object edtApplyConfigs: TButton
+    object btnGetObjectToTStringConfig: TButton
       AlignWithMargins = True
-      Left = 135
+      Left = 212
       Top = 18
-      Width = 100
+      Width = 238
       Height = 26
       Align = alLeft
-      Caption = 'Apply Config'
+      Caption = 'Get Object - With Inline Settings'
       TabOrder = 1
-      OnClick = edtApplyConfigsClick
+      OnClick = btnGetObjectToTStringConfigClick
+    end
+    object btnGetArrayToTStringConfig: TButton
+      AlignWithMargins = True
+      Left = 456
+      Top = 18
+      Width = 153
+      Height = 26
+      Align = alLeft
+      Caption = 'Get Array - With Settings in variable'
+      TabOrder = 2
+      OnClick = btnGetArrayToTStringConfigClick
+      ExplicitLeft = 371
       ExplicitTop = 17
     end
   end

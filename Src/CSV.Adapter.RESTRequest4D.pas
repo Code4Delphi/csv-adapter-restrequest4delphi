@@ -9,17 +9,22 @@ uses
   System.Classes,
   VCL.Dialogs,
   CSV.Adapter.RESTRequest4D.Config,
-  RESTRequest4D.Request.Adapter.Contract;
+  RESTRequest4D.Request.Adapter.Contract,
+  CSV.Adapter.RESTRequest4D.Utils;
 
 type
+  ICSVAdapterRESTRequest4DConfig = CSV.Adapter.RESTRequest4D.Config.ICSVAdapterRESTRequest4DConfig;
+  TCSVAdapterRESTRequest4DConfig = CSV.Adapter.RESTRequest4D.Config.TCSVAdapterRESTRequest4DConfig;
+
   TCSVAdapterRESTRequest4D = class(TInterfacedObject, IRequestAdapter)
   private
-    FConfig: TCSVAdapterRESTRequest4DConfig;
+    FConfig: ICSVAdapterRESTRequest4DConfig;
     FFileName: string;
     FRootElement: string;
     FCSV: TStrings;
     FStringListResult: TStrings;
     FCaptionsCreated: Boolean;
+    procedure CreateInternal(const AConfig: ICSVAdapterRESTRequest4DConfig = nil);
     procedure Execute(const AContent: string);
     procedure Process(const AValue: string); overload;
     procedure Process(const AJSONObject: TJSONObject); overload;
@@ -31,21 +36,77 @@ type
     class function New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter; overload;
     constructor Create(const AFileName: string; const ARootElement: string = ''); overload;
 
+    class function New(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
+    constructor Create(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
+
+    class function New(const AFileName: string; const ARootElement: string;
+      const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
+    constructor Create(const AFileName: string; const ARootElement: string;
+      const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
+
     class function New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter; overload;
     constructor Create(const AStringList: TStrings; const ARootElement: string = ''); overload;
 
+    class function New(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
+    constructor Create(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
+
+    class function New(const AStringList: TStrings; const ARootElement: string;
+      const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter; overload;
+    constructor Create(const AStringList: TStrings; const ARootElement: string;
+      const AConfig: ICSVAdapterRESTRequest4DConfig); overload;
+
     destructor Destroy; override;
-    function Config: TCSVAdapterRESTRequest4DConfig;
   end;
 
 implementation
 
-uses
-  CSV.Adapter.RESTRequest4D.Utils;
+procedure TCSVAdapterRESTRequest4D.CreateInternal(const AConfig: ICSVAdapterRESTRequest4DConfig = nil);
+begin
+  FConfig := AConfig;
+  if FConfig = nil then
+    FConfig := TCSVAdapterRESTRequest4DConfig.New;
+
+  FCaptionsCreated := False;
+  FCSV := TStringList.Create;
+  FFileName := '';
+  FRootElement := '';
+end;
 
 class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string = ''): IRequestAdapter;
 begin
   Result := Self.Create(AFileName, ARootElement);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string = '');
+begin
+  Self.CreateInternal;
+  FFileName := AFileName;
+  FRootElement := ARootElement;
+end;
+
+class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Result := Self.Create(AFileName, AConfig);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const AConfig: ICSVAdapterRESTRequest4DConfig);
+begin
+  Self.CreateInternal(AConfig);
+  FFileName := AFileName;
+end;
+
+class function TCSVAdapterRESTRequest4D.New(const AFileName: string; const ARootElement: string;
+  const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Self.Create(AFileName, ARootElement, AConfig);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string;
+  const AConfig: ICSVAdapterRESTRequest4DConfig);
+begin
+  Self.CreateInternal(AConfig);
+  FFileName := AFileName;
+  FRootElement := ARootElement;
 end;
 
 class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const ARootElement: string = ''): IRequestAdapter;
@@ -53,30 +114,42 @@ begin
   Result := Self.Create(AStringList, ARootElement);
 end;
 
-constructor TCSVAdapterRESTRequest4D.Create(const AFileName: string; const ARootElement: string = '');
-begin
-  FConfig := TCSVAdapterRESTRequest4DConfig.Create(Self);
-  FFileName := AFileName;
-  FRootElement := ARootElement;
-  FCaptionsCreated := False;
-  FCSV := TStringList.Create;
-end;
-
 constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string = '');
 begin
+  Self.CreateInternal;
   FStringListResult := AStringList;
-  Self.Create('', ARootElement);
+  FRootElement := ARootElement;
+end;
+
+class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Result := Self.Create(AStringList, AConfig);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const AConfig: ICSVAdapterRESTRequest4DConfig);
+begin
+  Self.CreateInternal(AConfig);
+  FStringListResult := AStringList;
+end;
+
+class function TCSVAdapterRESTRequest4D.New(const AStringList: TStrings; const ARootElement: string;
+  const AConfig: ICSVAdapterRESTRequest4DConfig): IRequestAdapter;
+begin
+  Result := Self.Create(AStringList, ARootElement, AConfig);
+end;
+
+constructor TCSVAdapterRESTRequest4D.Create(const AStringList: TStrings; const ARootElement: string;
+  const AConfig: ICSVAdapterRESTRequest4DConfig);
+begin
+  Self.CreateInternal(AConfig);
+  FStringListResult := AStringList;
+  FRootElement := ARootElement;
 end;
 
 destructor TCSVAdapterRESTRequest4D.Destroy;
 begin
   FCSV.Free;
   inherited;
-end;
-
-function TCSVAdapterRESTRequest4D.Config: TCSVAdapterRESTRequest4DConfig;
-begin
-  Result := FConfig;
 end;
 
 procedure TCSVAdapterRESTRequest4D.Execute(const AContent: string);
@@ -119,9 +192,9 @@ var
 begin
   LLine := '';
   for LJSONPair in AJSONObject do
-    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
+    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonString.Value, FConfig.Separator) + FConfig.Separator;
 
-  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastSeparator(LLine, FConfig.Separator));
   FCaptionsCreated := True;
 end;
 
@@ -132,9 +205,9 @@ var
 begin
   LLine := '';
   for LJSONPair in AJSONObject do
-    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value) + TCSVAdapterRESTRequest4DConfig.GetInstance.Separator;
+    LLine := LLine + TCSVAdapterRESTRequest4DUtils.PrepareStr(LJSONPair.JsonValue.Value, FConfig.Separator) + FConfig.Separator;
 
-  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastChar(LLine));
+  FCSV.Add(TCSVAdapterRESTRequest4DUtils.RemoveLastSeparator(LLine, FConfig.Separator));
 end;
 
 procedure TCSVAdapterRESTRequest4D.Process(const AJSONObject: TJSONObject);
